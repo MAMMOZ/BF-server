@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ESNext",         // เลือก target เป็น ESNext
-    "module": "ESNext",         // ใช้ ES Modules
-    "moduleResolution": "node", // การกำหนดวิธีการค้นหาโมดูล
-    "esModuleInterop": true,    // ใช้การเชื่อมต่อแบบ ES module
-    "skipLibCheck": true,       // ข้ามการตรวจสอบ TypeScript ในไลบรารี
-    "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "outDir": "./dist"
   },
-  "include": ["src/**/*"]       // รัน TypeScript บนไฟล์ในโฟลเดอร์ src
+  "include": ["src/**/*"]
 }

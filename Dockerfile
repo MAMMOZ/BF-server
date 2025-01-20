@@ -1,20 +1,23 @@
-# เลือก Node.js base image
+# ใช้ Node.js image ที่รองรับการทำงานกับ TypeScript
 FROM node:18-alpine
 
-# ตั้ง working directory ใน container
+# กำหนด working directory ใน Docker container
 WORKDIR /usr/src/app
 
-# คัดลอกไฟล์ package.json และ package-lock.json
+# คัดลอก package.json และ package-lock.json
 COPY package*.json ./
 
-# ติดตั้ง dependencies ทั้งหมด
+# ติดตั้ง dependencies
 RUN npm install
 
-# คัดลอกโค้ดทั้งหมดไปยัง container
+# คัดลอกไฟล์ source code ไปยัง container
 COPY . .
 
-# ติดตั้ง TypeScript และ ts-node ใน container
-RUN npm install -g typescript ts-node
+# คอมไพล์ TypeScript (หากต้องการ)
+RUN npm run build
 
-# รันคำสั่ง ts-node เพื่อรันไฟล์ index.ts
-CMD ["ts-node", "src/index.ts"]
+# ตั้งค่าพอร์ตที่ container จะฟัง
+EXPOSE 3000
+
+# รันคำสั่งเพื่อเริ่มต้นโปรเจค
+CMD ["npm", "run", "dev"]
