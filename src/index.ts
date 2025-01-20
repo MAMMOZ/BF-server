@@ -1,10 +1,7 @@
 import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import { cors } from '@elysiajs/cors'
-import * as path from 'path';
-import * as fs from 'fs';
 import { initDatabaseConnection, bot, addOrUpdateBot } from "./model";
-import { html } from '@elysiajs/html';
 
 
 
