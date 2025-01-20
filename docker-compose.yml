@@ -1,9 +1,0 @@
-version: '3'
-services:
-  app:
-    build: .
-    ports:
-      - "3002:3000"  # เปลี่ยนพอร์ต 3001 เป็น 3002
-    volumes:
-      - .:/usr/src/app
-    command: ["ts-node", "src/index.ts"]
