@@ -1,23 +1,34 @@
-# ใช้ Node.js image ที่รองรับการทำงานกับ TypeScript
-FROM node:18-alpine
-
-# กำหนด working directory ใน Docker container
+# use the official Bun image
+# see all versions at https://hub.docker.com/r/oven/bun/tags
+FROM oven/bun:1 as base
 WORKDIR /usr/src/app
 
-# คัดลอก package.json และ package-lock.json
-COPY package*.json ./
+# install dependencies into temp directory
+# this will cache them and speed up future builds
+FROM base AS install
+RUN mkdir -p /temp/dev
+COPY package.json /temp/dev/
+RUN cd /temp/dev && bun install
 
-# ติดตั้ง dependencies
-RUN npm install
+# install with --production (exclude devDependencies)
+RUN mkdir -p /temp/prod
+COPY package.json /temp/prod/
+RUN cd /temp/prod && bun install
 
-# คัดลอกไฟล์ source code ไปยัง container
+# copy node_modules from temp directory
+# then copy all (non-ignored) project files into the image
+FROM base AS prerelease
+COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
-# คอมไพล์ TypeScript (หากต้องการ)
-RUN npm run build
+# [optional] tests & build
+ENV NODE_ENV=production
+# RUN bun test
+# RUN bun run build
 
-# ตั้งค่าพอร์ตที่ container จะฟัง
-EXPOSE 3000
+# copy production dependencies and source code into final image
 
-# รันคำสั่งเพื่อเริ่มต้นโปรเจค
-CMD ["npm", "run", "dev"]
+# run the app
+USER bun
+EXPOSE 3000/tcp
+ENTRYPOINT [ "bun", "run", "./src/index.ts" ]
