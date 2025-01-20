@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot Data</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Bot Data</h1>
+    <p id="last-updated" class="text-sm text-gray-500">อัปเดตเมื่อ: ขณะนี้</p>
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full bg-white rounded-lg shadow-md">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="px-4 py-2">Status</th>
+            <th class="px-4 py-2">Account</th>
+            <th class="px-4 py-2">Type</th>
+            <th class="px-4 py-2">Level</th>
+            <th class="px-4 py-2">World</th>
+            <th class="px-4 py-2">Updated At</th>
+          </tr>
+        </thead>
+        <tbody id="data-table" class="text-center">
+          <!-- Data will be populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const apiUrl = "http://localhost:3000/bot"; // เปลี่ยน URL ให้ตรงกับ API ของคุณ
+
+    // ฟังก์ชันโหลดข้อมูลจาก API
+    const fetchBotData = async () => {
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        updateTable(data);
+        updateTimestamp();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    // ฟังก์ชันคำนวณเวลาในรูปแบบ "X นาทีที่แล้ว"
+    const timeAgo = (timestamp) => {
+      const now = new Date();
+      const updatedTime = new Date(timestamp);
+      const diffInMinutes = Math.floor((now - updatedTime) / 60000);
+
+      if (diffInMinutes < 1) return "เมื่อสักครู่";
+      if (diffInMinutes === 1) return "1 นาทีที่แล้ว";
+      return `${diffInMinutes} นาทีที่แล้ว`;
+    };
+
+    // ฟังก์ชันเลือกอิโมจิตามเวลาที่ผ่านไป
+    const getEmojiByLastUpdated = (timestamp) => {
+      const now = new Date();
+      const updatedTime = new Date(timestamp);
+      const diffInMinutes = Math.floor((now - updatedTime) / 60000);
+
+      return diffInMinutes <= 10 ? "🍏" : "🍎";
+    };
+
+    // ฟังก์ชันอัปเดตตารางข้อมูล
+    const updateTable = (data) => {
+      const tableBody = document.getElementById("data-table");
+      tableBody.innerHTML = ""; // ล้างข้อมูลเก่า
+      data.forEach((item) => {
+        const row = `
+          <tr class="border-t">
+            <td class="px-4 py-2">${getEmojiByLastUpdated(item.updatedAt)}</td>
+            <td class="px-4 py-2">${item.account}</td>
+            <td class="px-4 py-2">${item.type}</td>
+            <td class="px-4 py-2">${item.level}</td>
+            <td class="px-4 py-2">${item.world}</td>
+            <td class="px-4 py-2">${timeAgo(item.updatedAt)}</td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      });
+    };
+
+    // ฟังก์ชันอัปเดตข้อความ "อัปเดตเมื่อ"
+    const updateTimestamp = () => {
+      const timestampElement = document.getElementById("last-updated");
+      const now = new Date();
+      timestampElement.textContent = `อัปเดตเมื่อ: ${timeAgo(now.toISOString())}`;
+    };
+
+    // โหลดข้อมูลทุก ๆ 10 วินาที
+    fetchBotData();
+    setInterval(fetchBotData, 10000);
+  </script>
+</body>
+</html>
