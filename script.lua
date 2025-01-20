@@ -3,7 +3,7 @@ repeat task.wait() until game:GetService("Players").LocalPlayer:FindFirstChild("
 repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Main")
 repeat task.wait() until (game.Players.LocalPlayer.Neutral == false) == true
 
-local __script__host = "mammoz"
+local __script__host = "http://110.164.203.137:3000"
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -129,7 +129,11 @@ end
 
 function GetFruitInU()
     local ReturnText = {}
-    for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventoryFruits")) do
+    local check = game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventoryFruits")
+    if type(check) ~= "table" then
+        return ReturnText
+    end
+    for i,v in pairs(check) do
         if type(v) == "table" then
             if v ~= nil then
                 if v.Price >= 100000  then
@@ -281,14 +285,11 @@ end
 
 task.spawn(function()
     while true do
-        local x, p = pcall(function()
-            sendRequest()
-        end)
+        print("mammozzz")
+        sendRequest()
+        -- local x, p = pcall(function()
+        -- end)
         if not x then warn(p) end
         task.wait(10)
     end
 end)
-
-
-local fragments = LocalPlayer.Data.Fragments.Value
-print(type(fragments))
