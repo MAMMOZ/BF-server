@@ -231,27 +231,6 @@ function checkDoor()
     return game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("CheckTempleDoor")
 end
 
-
---[[ function FormatNumber(value)
-    if value >= 1000000 then
-        return string.format("%.1fM", value / 1000000)
-    elseif value >= 100000 then
-        return string.format("%.0fK", value / 1000)
-    else
-        return tostring(value)
-    end
-end
-
-function CheckFragment()
-    local fragments = game:GetService("Players").LocalPlayer.Data.Fragments.Value
-    return FormatNumber(fragments)
-end
-
-function CheckBeli()
-    local beli = game:GetService("Players").LocalPlayer.Data.Beli.Value
-    return FormatNumber(beli)
-end ]]
-
 function sendRequest()
     local res = request({
         Url = __script__host .. "/addbot", -- ปรับ URL ให้ถูกต้อง

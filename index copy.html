@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1b0d3b 0%, #2d1b54 100%);
+        }
+        .glow-card {
+            background: linear-gradient(135deg, #4169E1 0%, #7B68EE 100%);
+            box-shadow: 0 0 20px rgba(123, 104, 238, 0.2);
+        }
+        .img-card {
+            background: linear-gradient(135deg, #1c306e 0%, #403194 100%);
+            box-shadow: 0 0 20px rgba(123, 104, 238, 0.2);
+        }
+        .dark-card {
+            background: rgba(45, 27, 84, 0.5);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="text-gray-200 min-h-screen p-8">
+    <!-- Header Card -->
+    <!-- <div class="glow-card rounded-xl p-6 mb-8 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-white p-6">MAMMOZ</h1>
+        <div class="flex gap-4 text-sm">
+            <span class="text-green-400">ONLINE: <span id="last-updated-banana">0</span></span>
+            <span class="text-red-400">OFFLINE: <span id="last-updated-apple">0</span></span>
+        </div>
+    </div> -->
+
+    <!-- Stats Section -->
+    <div class="grid grid-cols-2 gap-4 mb-8 sm:grid-cols-4">
+        <div class="dark-card backdrop-blur-sm p-6 rounded-xl">
+            <h3 class="text-gray-400 mb-2">Online</h3>
+            <p class="text-green-400 text-4xl font-bold" id="online-count">0</p>
+            <p class="text-gray-400">Accounts</p>
+        </div>
+        <div class="dark-card backdrop-blur-sm p-6 rounded-xl">
+            <h3 class="text-gray-400 mb-2">Offline</h3>
+            <p class="text-red-400 text-4xl font-bold" id="offline-count">0</p>
+            <p class="text-gray-400">Accounts</p>
+        </div>
+        <div class="dark-card backdrop-blur-sm p-6 rounded-xl">
+            <h3 class="text-gray-400 mb-2">Time Remaining</h3>
+            <p class="text-blue-400 text-4xl font-bold">7</p>
+            <p class="text-gray-400">DAY</p>
+        </div>
+        <div class="glow-card p-6 rounded-xl">
+            <h3 class="text-gray-200 mb-2">Package</h3>
+            <p class="text-2xl font-bold flex items-center">
+                <span class="text-yellow-400 mr-2">🐘</span>
+                Owner
+            </p>
+            <p class="text-white-400">MAMMOZ</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-8 sm:grid-cols-4 md:grid-cols-8">
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/8/83/Sanguine_Art.png/revision/latest?cb=20231025151119" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-serven">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://cdn-offer-photos.zeusx.com/3b7e36ed-53ea-4049-84e1-a0200e07d1e5.jpg" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-god">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/7/74/Cursed_Dual_Katana.png/revision/latest?cb=20241223032242" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-cdk">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/e/ee/Shark_Anchor.png/revision/latest?cb=20241223143202" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-sa">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/c/c6/Mirror_Fractal.png/revision/latest?cb=20231026234600" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-mirror">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/b/b4/Valkyrie_Helm.png/revision/latest?cb=20241223213044" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-valkyrie">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-piggy-wikia/images/c/c6/Lever.png/revision/latest?cb=20230210143400" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-door">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/e/ed/Leviathan_Heart.png/revision/latest?cb=20231026233359" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-heart">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/e/e3/Skull_Guitar.png/revision/latest?cb=20241223023740" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-sg">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/9/9f/DoughFruit.png/revision/latest?cb=20231210155057" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-moji">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/4/43/DragonFruit.png/revision/latest?cb=20241218114129" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-dragon">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/d/d3/MammothFruit.png/revision/latest?cb=20231027115702" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-mammoz">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/c/c3/KitsuneFruit.png/revision/latest?cb=20241223162956" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-kiserni">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/8/8c/LeopardFruit.png/revision/latest?cb=20231027115615" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-tiger">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/1/14/YetiFruit.png/revision/latest?cb=20241226020230" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-yeti">0</span>
+            </p>
+        </div>
+        <div class="img-card p-6 rounded-xl">
+            <p class="text-2xl font-bold flex items-center">
+                <img class="w-12" src="https://static.wikia.nocookie.net/roblox-blox-piece/images/7/7e/GasFruit.png/revision/latest?cb=20241223162315" alt="" srcset="">
+                <span class="text-blue-400 mr-2 px-3" id="last-updated-gas">0</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="p-6">
+        <div class="flex justify-end items-center">
+            <span class="isolate inline-flex rounded-md shadow-sm">
+                <button type="button" class="relative inline-flex items-center rounded-l-md text-white bg-indigo-600 px-3 py-2 text-sm font-semibold ring-1 ring-inset ring-indigo-300 focus-visible:outline hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">⚙️Setting</button>
+                <button type="button" class="relative -ml-px inline-flex items-center text-white bg-indigo-600 px-3 py-2 text-sm font-semibold ring-1 ring-inset ring-indigo-300 focus-visible:outline hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">📄Sheet</button>
+                <button type="button" class="relative -ml-px inline-flex items-center rounded-r-md text-white bg-indigo-600 px-3 py-2 text-sm font-semibold ring-1 ring-inset ring-indigo-300 focus-visible:outline hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">🎮Script</button>
+              </span>
+        </div>
+    </div>
+
+    <!-- Account Data Section -->
+    <div class="dark-card backdrop-blur-sm rounded-xl p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-white">Account Data</h2>
+            <p id="last-updated" class="text-gray-400">อัปเดตเมื่อ: ขณะนี้</p>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="relative mb-6">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search" 
+                class="w-full bg-gray-900/30 backdrop-blur-sm rounded-xl py-2 px-4 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+            <svg class="w-5 h-5 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="text-left border-b border-purple-800/50">
+                        <th class="py-2 px-4 text-purple-200">Status</th>
+                        <th class="py-2 px-4 text-purple-200">Account</th>
+                        <th class="py-2 px-4 text-purple-200">Type</th>
+                        <th class="py-2 px-4 text-purple-200">Melee</th>
+                        <th class="py-2 px-4 text-purple-200">Devil Fruit</th>
+                        <th class="py-2 px-4 text-purple-200">Fruit Inventori</th>
+                        <th class="py-2 px-4 text-purple-200">Level</th>
+                        <th class="py-2 px-4 text-purple-200">World</th>
+                        <th class="py-2 px-4 text-purple-200">Money</th>
+                        <th class="py-2 px-4 text-purple-200">Fragment</th>
+                        <th class="py-2 px-4 text-purple-200">Race</th>
+                        <th class="py-2 px-4 text-purple-200">Tier</th>
+                        <th class="py-2 px-4 text-purple-200">Mirror</th>
+                        <th class="py-2 px-4 text-purple-200">Valkyrie</th>
+                        <th class="py-2 px-4 text-purple-200">UnlockDoor</th>
+                        <th class="py-2 px-4 text-purple-200">Updated At</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table" class="text-gray-300">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Previous JavaScript code remains the same
+        const apiUrl = "http://localhost:3000/bot";
+        let currentData = [];
+
+        const fetchBotData = async () => {
+            try {
+                const response = await fetch(apiUrl);
+                currentData = await response.json();
+                updateTable(currentData.data);
+                updateTimestamp();
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        const timeAgo = (timestamp) => {
+            const now = new Date();
+            const updatedTime = new Date(timestamp);
+            const diffInMinutes = Math.floor((now - updatedTime) / 60000);
+
+            if (diffInMinutes < 1) return "minute ago";
+            if (diffInMinutes === 1) return "1 minute";
+            return `${diffInMinutes} minute`;
+        };
+
+        const getEmojiByLastUpdated = (timestamp) => {
+            const now = new Date();
+            const updatedTime = new Date(timestamp);
+            const diffInMinutes = Math.floor((now - updatedTime) / 60000);
+
+            return diffInMinutes <= 10 ? "🍏" : "🍎";
+        };
+
+        const gettime = (timestamp) => {
+            const now = new Date();
+            const updatedTime = new Date(timestamp);
+            const diffInMinutes = Math.floor((now - updatedTime) / 60000);
+            return diffInMinutes;
+        };
+
+        const updateTable = (data) => {
+            const tableBody = document.getElementById("data-table");
+            tableBody.innerHTML = "";
+            const summary = {
+                a: 0,
+                b: 0,
+                serven: 0,
+                god: 0,
+                cdk: 0,
+                sa: 0,
+                mirror: 0,
+                valkyrie: 0,
+                door: 0,
+                heart: 0,
+                sg: 0,
+                moji: 0,
+                dragon: 0,
+                mammoz: 0,
+                kiserni: 0,
+                tiger: 0,
+                yeti: 0,
+                gas: 0,
+            };
+            data.forEach((item) => {
+                const diffTime = gettime(item.updatedAt);
+
+                // Update summary counts
+                diffTime > 10 ? summary.a++ : summary.b++;
+                if (item.type.includes("GOD")) summary.god++;
+                if (item.type.includes("CDK")) summary.cdk++;
+                if (item.type.includes("SA")) summary.sa++;
+                if (item.mirror) summary.mirror++;
+                if (item.valk) summary.valkyrie++;
+                if (item.unlockDoor) summary.door++;
+                if (item.type.includes("Heart")) summary.heart++;
+                if (item.type.includes("SG")) summary.sg++;
+                if (item.fruit === "Dough") summary.moji++;
+                if (item.fruit === "Dragon") summary.dragon++;
+                if (item.fruit === "Mammoz") summary.mammoz++;
+                if (item.fruit === "kiserni") summary.kiserni++;
+                if (item.fruit === "Tiger") summary.tiger++;
+                if (item.fruit === "Yeti") summary.yeti++;
+                if (item.fruit === "Gas") summary.gas++;
+
+                const row = `
+                    <tr class="border-t border-purple-800/30 hover:bg-purple-900/20">
+                        <td class="py-2 px-4">${getEmojiByLastUpdated(item.updatedAt)}</td>
+                        <td class="py-2 px-4">${item.account}</td>
+                        <td class="py-2 px-4">${item.type}</td>
+                        <td class="py-2 px-4">${item.melee.filter(items => items === "Godhuman").join('')}</td>
+                        <td class="py-2 px-4">${item.fruit}</td>
+                        <td class="py-2 px-4">${item.fruitInv}</td>
+                        <td class="py-2 px-4">${item.level}</td>
+                        <td class="py-2 px-4">${item.world}</td>
+                        <td class="py-2 px-4">${item.beli}</td>
+                        <td class="py-2 px-4">${item.fragment}</td>
+                        <td class="py-2 px-4">${item.race}</td>
+                        <td class="py-2 px-4">${item.tier}</td>
+                        <td class="py-2 px-4">${item.mirror ? "✅" : "❌"}</td>
+                        <td class="py-2 px-4">${item.valk ? "✅" : "❌"}</td>
+                        <td class="py-2 px-4">${item.unlockDoor ? "✅" : "❌"}</td>
+                        <td class="py-2 px-4">${timeAgo(item.updatedAt)}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+
+            const updategod = document.getElementById("last-updated-god");
+            updategod.textContent = summary.god;
+
+            const updatecdk = document.getElementById("last-updated-cdk");
+            updatecdk.textContent = summary.cdk;
+
+            const updatesa = document.getElementById("last-updated-sa");
+            updatesa.textContent = summary.sa;
+
+            const updatemirror = document.getElementById("last-updated-mirror");
+            updatemirror.textContent = summary.mirror;
+            
+            const updatevalkyrie = document.getElementById("last-updated-valkyrie");
+            updatevalkyrie.textContent = summary.valkyrie;
+
+            const updateheart = document.getElementById("last-updated-heart");
+            updateheart.textContent = summary.heart;
+
+            const updatesg = document.getElementById("last-updated-sg");
+            updatesg.textContent = summary.sg;
+
+            const updatedoor = document.getElementById("last-updated-door");
+            updatedoor.textContent = summary.door;
+
+            const updatemoji = document.getElementById("last-updated-moji");
+            updatemoji.textContent = summary.moji;
+
+            const updatedragon = document.getElementById("last-updated-dragon");
+            updatedragon.textContent = summary.dragon;
+
+            const updatemammoz = document.getElementById("last-updated-mammoz");
+            updatemammoz.textContent = summary.mammoz;
+
+            const updatekiserni = document.getElementById("last-updated-kiserni");
+            updatekiserni.textContent = summary.kiserni;
+
+            const updatetiger = document.getElementById("last-updated-tiger");
+            updatetiger.textContent = summary.tiger;
+
+            const updateyeti = document.getElementById("last-updated-yeti");
+            updateyeti.textContent = summary.yeti;
+
+            const updategas = document.getElementById("last-updated-gas");
+            updategas.textContent = summary.gas;
+
+            // Update the main stats
+            document.getElementById("online-count").textContent = summary.b;
+            document.getElementById("offline-count").textContent = summary.a;
+        };
+
+        const updateTimestamp = () => {
+            const timestampElement = document.getElementById("last-updated");
+            const now = new Date();
+            timestampElement.textContent = `อัปเดตเมื่อ: ${timeAgo(now.toISOString())}`;
+        };
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredData = currentData.filter(item => {
+                return (
+                    item.account.toLowerCase().includes(searchTerm) ||
+                    item.type.toLowerCase().includes(searchTerm) ||
+                    item.level.toString().includes(searchTerm) ||
+                    item.world.toString().includes(searchTerm)
+                );
+            });
+            updateTable(filteredData);
+        });
+
+        fetchBotData();
+        setInterval(fetchBotData, 10000);
+    </script>
+</body>
+</html>

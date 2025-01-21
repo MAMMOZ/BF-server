@@ -1,98 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bot Data</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1325 0%, #1a1f35 50%, #1a2830 100%);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Bot Data</h1>
-    <p id="last-updated" class="text-sm text-gray-500">อัปเดตเมื่อ: ขณะนี้</p>
-    <div class="overflow-x-auto">
-      <table class="table-auto w-full bg-white rounded-lg shadow-md">
-        <thead class="bg-gray-200">
-          <tr>
-            <th class="px-4 py-2">Status</th>
-            <th class="px-4 py-2">Account</th>
-            <th class="px-4 py-2">Type</th>
-            <th class="px-4 py-2">Level</th>
-            <th class="px-4 py-2">World</th>
-            <th class="px-4 py-2">Updated At</th>
-          </tr>
-        </thead>
-        <tbody id="data-table" class="text-center">
-          <!-- Data will be populated here -->
-        </tbody>
-      </table>
+<body class="text-gray-200 min-h-screen p-8">
+    <!-- Stats Section -->
+    <div class="grid grid-cols-4 gap-4 mb-12">
+        <div class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg">
+            <h3 class="text-gray-400 mb-2">Online</h3>
+            <p id="last-updated-banana" class="text-green-500 text-4xl font-bold">0</p>
+            <p class="text-gray-400">Accounts</p>
+        </div>
+        <div class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg">
+            <h3 class="text-gray-400 mb-2">Offline</h3>
+            <p id="last-updated-apple" class="text-red-500 text-4xl font-bold">0</p>
+            <p class="text-gray-400">Accounts</p>
+        </div>
+        <div class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg">
+            <h3 class="text-gray-400 mb-2">Time Remaining</h3>
+            <p class="text-blue-500 text-4xl font-bold">7</p>
+            <p class="text-gray-400">Months</p>
+        </div>
+        <div class="bg-blue-800/50 backdrop-blur-sm p-6 rounded-lg">
+            <h3 class="text-gray-200 mb-2">Package</h3>
+            <p class="text-2xl font-bold flex items-center">
+                <span class="text-yellow-400 mr-2">🐘</span>
+                Owner
+            </p>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const apiUrl = "http://localhost:3000/bot"; // เปลี่ยน URL ให้ตรงกับ API ของคุณ
+    <!-- Account Data Section -->
+    <div class="bg-gray-800/30 backdrop-blur-sm rounded-lg p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Account Data</h2>
+            <p id="last-updated" class="text-gray-400">อัปเดตเมื่อ: ขณะนี้</p>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="relative mb-6">
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search" 
+                class="w-full bg-gray-700/50 backdrop-blur-sm rounded-lg py-2 px-4 pl-10"
+            >
+            <svg class="w-5 h-5 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+        </div>
 
-    // ฟังก์ชันโหลดข้อมูลจาก API
-    const fetchBotData = async () => {
-      try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        updateTable(data);
-        updateTimestamp();
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+        <!-- Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="text-left border-b border-gray-700/50">
+                        <th class="py-2 px-4">Status</th>
+                        <th class="py-2 px-4">Account</th>
+                        <th class="py-2 px-4">Type</th>
+                        <th class="py-2 px-4">Level</th>
+                        <th class="py-2 px-4">World</th>
+                        <th class="py-2 px-4">Updated At</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table" class="text-gray-300">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    // ฟังก์ชันคำนวณเวลาในรูปแบบ "X นาทีที่แล้ว"
-    const timeAgo = (timestamp) => {
-      const now = new Date();
-      const updatedTime = new Date(timestamp);
-      const diffInMinutes = Math.floor((now - updatedTime) / 60000);
+    <script>
+        const apiUrl = "http://localhost:3000/bot";
+        let currentData = []; // Store the current data
 
-      if (diffInMinutes < 1) return "เมื่อสักครู่";
-      if (diffInMinutes === 1) return "1 นาทีที่แล้ว";
-      return `${diffInMinutes} นาทีที่แล้ว`;
-    };
+        const fetchBotData = async () => {
+            try {
+                const response = await fetch(apiUrl);
+                currentData = await response.json(); // Update current data
+                updateTable(currentData);
+                updateTimestamp();
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
 
-    // ฟังก์ชันเลือกอิโมจิตามเวลาที่ผ่านไป
-    const getEmojiByLastUpdated = (timestamp) => {
-      const now = new Date();
-      const updatedTime = new Date(timestamp);
-      const diffInMinutes = Math.floor((now - updatedTime) / 60000);
+        const timeAgo = (timestamp) => {
+            const now = new Date();
+            const updatedTime = new Date(timestamp);
+            const diffInMinutes = Math.floor((now - updatedTime) / 60000);
 
-      return diffInMinutes <= 10 ? "🍏" : "🍎";
-    };
+            if (diffInMinutes < 1) return "เมื่อสักครู่";
+            if (diffInMinutes === 1) return "1 นาทีที่แล้ว";
+            return `${diffInMinutes} นาทีที่แล้ว`;
+        };
 
-    // ฟังก์ชันอัปเดตตารางข้อมูล
-    const updateTable = (data) => {
-      const tableBody = document.getElementById("data-table");
-      tableBody.innerHTML = ""; // ล้างข้อมูลเก่า
-      data.forEach((item) => {
-        const row = `
-          <tr class="border-t">
-            <td class="px-4 py-2">${getEmojiByLastUpdated(item.updatedAt)}</td>
-            <td class="px-4 py-2">${item.account}</td>
-            <td class="px-4 py-2">${item.type}</td>
-            <td class="px-4 py-2">${item.level}</td>
-            <td class="px-4 py-2">${item.world}</td>
-            <td class="px-4 py-2">${timeAgo(item.updatedAt)}</td>
-          </tr>
-        `;
-        tableBody.innerHTML += row;
-      });
-    };
+        const getEmojiByLastUpdated = (timestamp) => {
+            const now = new Date();
+            const updatedTime = new Date(timestamp);
+            const diffInMinutes = Math.floor((now - updatedTime) / 60000);
 
-    // ฟังก์ชันอัปเดตข้อความ "อัปเดตเมื่อ"
-    const updateTimestamp = () => {
-      const timestampElement = document.getElementById("last-updated");
-      const now = new Date();
-      timestampElement.textContent = `อัปเดตเมื่อ: ${timeAgo(now.toISOString())}`;
-    };
+            return diffInMinutes <= 10 ? "🍏" : "🍎";
+        };
 
-    // โหลดข้อมูลทุก ๆ 10 วินาที
-    fetchBotData();
-    setInterval(fetchBotData, 10000);
-  </script>
+        const gettime = (timestamp) => {
+            const now = new Date();
+            const updatedTime = new Date(timestamp);
+            const diffInMinutes = Math.floor((now - updatedTime) / 60000);
+            return diffInMinutes;
+        };
+
+        const updateTable = (data) => {
+            let a = 0;
+            let b = 0;
+
+            const tableBody = document.getElementById("data-table");
+            tableBody.innerHTML = "";
+            data.forEach((item) => {
+                const diffTime = gettime(item.updatedAt);
+                if (diffTime > 10) {
+                    a++;
+                } else {
+                    b++;
+                }
+                const row = `
+                    <tr class="border-t border-gray-700/50">
+                        <td class="py-2 px-4">${getEmojiByLastUpdated(item.updatedAt)}</td>
+                        <td class="py-2 px-4">${item.account}</td>
+                        <td class="py-2 px-4">${item.type}</td>
+                        <td class="py-2 px-4">${item.level}</td>
+                        <td class="py-2 px-4">${item.world}</td>
+                        <td class="py-2 px-4">${timeAgo(item.updatedAt)}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+
+            const updateoffline = document.getElementById("last-updated-apple");
+            updateoffline.textContent = a;
+
+            const updateonline = document.getElementById("last-updated-banana");
+            updateonline.textContent = b;
+        };
+
+        const updateTimestamp = () => {
+            const timestampElement = document.getElementById("last-updated");
+            const now = new Date();
+            timestampElement.textContent = `อัปเดตเมื่อ: ${timeAgo(now.toISOString())}`;
+        };
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredData = currentData.filter(item => {
+                return (
+                    item.account.toLowerCase().includes(searchTerm) ||
+                    item.type.toLowerCase().includes(searchTerm) ||
+                    item.level.toString().includes(searchTerm) ||
+                    item.world.toString().includes(searchTerm)
+                );
+            });
+            updateTable(filteredData);
+        });
+
+        fetchBotData();
+        setInterval(fetchBotData, 10000);
+    </script>
 </body>
 </html>
