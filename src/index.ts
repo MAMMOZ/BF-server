@@ -1,12 +1,11 @@
 import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import { cors } from '@elysiajs/cors'
-import { initDatabaseConnection, bot, addOrUpdateBot } from "./model";
+import { bot, addOrUpdateBot } from "./model";
+import { login } from "./login";
+import { initDatabaseConnection } from "./db";
 
-
-
-// เริ่มต้นการเชื่อมต่อ MongoDB
-await initDatabaseConnection();
+await initDatabaseConnection()
 
 const app = new Elysia()
 .use(
@@ -22,8 +21,16 @@ const app = new Elysia()
 );
 app.use(cors())
 
-app.get("/bot", () => {
-  return bot();
+app.post("/bot", async ({ body }) => {
+  if (!body) return { error: "No data provided" };
+
+  try {
+    const res = await bot(body);
+    return res;
+  } catch (error) {
+    console.error("Error in /addbot:", error);
+    return { error: "Failed to process data." };
+  }
 });
 
 app.post("/addbot", async ({ body }) => {
@@ -32,6 +39,18 @@ app.post("/addbot", async ({ body }) => {
   try {
     await addOrUpdateBot(body);
     return { message: "Data processed successfully." };
+  } catch (error) {
+    console.error("Error in /addbot:", error);
+    return { error: "Failed to process data." };
+  }
+});
+
+app.post("/login", async ({ body }) => {
+  if (!body) return { error: "No data provided" };
+
+  try {
+    const token = await login(body);
+    return { token:token, message: "Data processed successfully." };
   } catch (error) {
     console.error("Error in /addbot:", error);
     return { error: "Failed to process data." };

@@ -1,34 +1,11 @@
-import { MongoClient, Db } from "mongodb";
+// model.ts
+import { getDatabase } from "./db";
 
-const uri =
-  "mongodb://clm7cqub1001qbsmn1nj4ctpv:lFTpO2CZrft9yz3bNGYduxc9@161.246.127.24:9042/?readPreference=primary&ssl=false"; // เปลี่ยน URI ให้ตรงกับ MongoDB ของคุณ
-const databaseName = "botDatabase"; // ชื่อ Database ที่คุณต้องการใช้
-
-let db: Db | null = null; // ตัวแปรสำหรับเก็บ Database instance
-
-// ฟังก์ชันเริ่มต้นเชื่อมต่อกับ MongoDB
-const initDatabaseConnection = async () => {
-  if (!db) {
-    try {
-      const client = new MongoClient(uri);
-      await client.connect();
-      console.log("Connected to MongoDB!");
-      db = client.db(databaseName);
-    } catch (error) {
-      console.error("Error connecting to MongoDB:", error);
-      process.exit(1); // หยุดโปรแกรมหากเชื่อมต่อไม่ได้
-    }
-  }
-  return db;
-};
-
-// ฟังก์ชันใช้งาน MongoDB
-const bot = async () => {
-  if (!db) {
-    throw new Error("Database not initialized");
-  }
+const bot = async (key: any) => {
+  const db = getDatabase();
   const collection = db.collection("bots"); // เปลี่ยนชื่อ Collection ตามต้องการ
-  const data = await collection.find({}).toArray();
+  const data = await collection.find({ key:key.key }).toArray();
+  // const data = await collection.find({}).toArray();
   const summary = {
     serven: 0,
     god: 0,
@@ -72,9 +49,7 @@ const bot = async () => {
 
 // เพิ่มหรืออัปเดตข้อมูลใน Collection
 const addOrUpdateBot = async (botData: any) => {
-  if (!db) {
-    throw new Error("Database not initialized");
-  }
+  const db = getDatabase();
   const collection = db.collection("bots");
 
   const query = { account: botData.account }; // เงื่อนไขการค้นหา
@@ -98,4 +73,4 @@ const addOrUpdateBot = async (botData: any) => {
   }
 };
 
-export { initDatabaseConnection, bot, addOrUpdateBot };
+export { bot, addOrUpdateBot };
