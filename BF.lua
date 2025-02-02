@@ -1,7 +1,7 @@
 setfpscap(7);
 if not game:IsLoaded() then game.Loaded:Wait(3) end
 getgenv().ConfigsKaitun = {
-	["Safe Mode"] = false, -- Will be pass all anti cheat (but slow farm)
+	["Safe Mode"] = true, -- Will be pass all anti cheat (but slow farm)
 	
 	["Melee"] = {
 		["Death Step"] = true,
